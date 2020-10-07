@@ -2,6 +2,7 @@
 import java.io.*;
 
 public class EditableBufferedReader extends BufferedReader {
+    private Line line;
     // variables
     // Valors dentrada de system.in
     static final int ENTER = 13;
@@ -29,6 +30,7 @@ public class EditableBufferedReader extends BufferedReader {
     // Constructor
     public EditableBufferedReader(Reader in) {
         super(in);
+        this.line = new Line(); 
     }
   
 
@@ -63,7 +65,7 @@ public class EditableBufferedReader extends BufferedReader {
         // Caldrà que els sencers retornats com a símbols no es solapin
         // amb els sencers retornats com a caràcters simples.
 
-        this.setRaw();
+   
 
         int carac = 0;
         try{
@@ -102,7 +104,7 @@ public class EditableBufferedReader extends BufferedReader {
         } else if (carac==BACKSPACE){
             carac=_BACKSPACE;
         }
-        this.unsetRaw();
+       
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,47 +113,46 @@ public class EditableBufferedReader extends BufferedReader {
 
     }
 
-  /*  public String readLine(){ 
+   public String readLine()throws IOException{ 
+    this.setRaw();
           int r_carac=0;
            do{ 
                r_carac=this.read();
                 
-                    if(r_carac >= _ESCAPE){
-                        switch (carac){
+                if(r_carac >= _ESCAPE){
+                    switch (r_carac){
                             case _INSERT:
-                                //this.linia.toInsert();
+                                this.line.toInsert();
                             break;
                             case _SUPR:
-                                //this.linia.suprimir();
+                                this.line.suprimir();
                             break;
-                            case SEC_RIGHT:
-                                //this.linia.right();
+                            case _RIGHT:
+                                this.line.right();
                             break;
                             
-                            case SEC_DELETE:
-                                //this.linia.delete();
+                            case _BACKSPACE:
+                                this.line.delete();
                               
                             break;
-                            case SEC_FIN:
-                                //this.linia.fin();
+                            case _END:
+                                this.line.end();
                             break;
-                            case SEC_HOME:
-                                //this.linia.home();
+                            case _HOME:
+                                this.line.home();
                             break;
-                            case SEC_LEFT:
-                                //this.linia.left();
-                            break;
+                            /*case _LEFT:
+                                this.line.left();
+                            break;*/
                            
-                        }
-     
-      
+                    }
+                }else{
+                    this.line.addCaracter(r_carac);
+                }
              
-       } while(carac != ENTER);
-      
-      
-      
+       } while(r_carac != ENTER);
+       this.unsetRaw();
+       return this.line.toString();
       
       }
-
-}*/
 }

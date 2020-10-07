@@ -4,9 +4,9 @@ class TestReadLine {
   public static void main(String[] args) {
     BufferedReader in = new EditableBufferedReader(
       new InputStreamReader(System.in));
-    int str = 0;
+    String str = null;
     try {
-      str = in.read();
+      str = in.readLine();
     } catch (IOException e) { e.printStackTrace(); }
     System.out.println("\nline is: " + str);
   }

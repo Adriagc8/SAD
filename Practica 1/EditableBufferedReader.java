@@ -20,10 +20,10 @@ public class EditableBufferedReader extends BufferedReader {
     static final int _INSERT = 201;
     static final int _SUPR = 205;
     static final int _HOME = 200;
-    static final int _LEFT = 201;
+    static final int _LEFT = 204;
     static final int _RIGHT = 202;
     static final int _END = 203;
-    static final int _BACKSPACE = 128;
+    static final int _BACKSPACE = 206;
     static final int _INVINPUT=129;
     
 
@@ -68,7 +68,7 @@ public class EditableBufferedReader extends BufferedReader {
    
 
         int carac = 0;
-        try{
+       try{
             carac = super.read();
         if (carac == ESC) { //sequencia d'escape
             carac = super.read();
@@ -76,9 +76,11 @@ public class EditableBufferedReader extends BufferedReader {
                 carac = super.read();
                switch (carac) {
                     case INSERT:
+                        super.read();
                         carac = _INSERT;
                         break;
                     case SUPR:
+                        super.read();
                         carac = _SUPR;
                         break;
                     case HOME:
@@ -91,6 +93,7 @@ public class EditableBufferedReader extends BufferedReader {
                         carac= _RIGHT;
                         break;
                     case END:
+                       
                         carac= _END;
                         break;
                     default:
@@ -101,7 +104,7 @@ public class EditableBufferedReader extends BufferedReader {
             } else { 
                 carac=_INVINPUT;
             }
-        } else if (carac==BACKSPACE){
+        }else if (carac==BACKSPACE){
             carac=_BACKSPACE;
         }
        
@@ -114,7 +117,7 @@ public class EditableBufferedReader extends BufferedReader {
     }
 
    public String readLine()throws IOException{ 
-    this.setRaw();
+   this.setRaw();
           int r_carac=0;
            do{ 
                r_carac=this.read();
@@ -132,8 +135,7 @@ public class EditableBufferedReader extends BufferedReader {
                             break;
                             
                             case _BACKSPACE:
-                                this.line.delete();
-                              
+                                this.line.backspace();
                             break;
                             case _END:
                                 this.line.end();
@@ -141,14 +143,17 @@ public class EditableBufferedReader extends BufferedReader {
                             case _HOME:
                                 this.line.home();
                             break;
-                            /*case _LEFT:
+                            case _LEFT:
                                 this.line.left();
-                            break;*/
+                            break;
                            
                     }
-                }else{
+                }else if(r_carac!=ENTER){
                     this.line.addCaracter(r_carac);
                 }
+                                
+                System.out.print("\r"+this.line.toString());    
+                System.out.print("\033["+this.line.getPos()+"G"); 
              
        } while(r_carac != ENTER);
        this.unsetRaw();

@@ -4,7 +4,6 @@ import java.io.*;
 public class EditableBufferedReader extends BufferedReader {
     private Line line;
     // variables
-    // Valors dentrada de system.in
     static final int ENTER = 13;
     static final int ESC = 27;
     static final int INSERT = 50; // ^[[2~
@@ -25,7 +24,6 @@ public class EditableBufferedReader extends BufferedReader {
     static final int _END = 203;
     static final int _BACKSPACE = 206;
     static final int _INVINPUT=129;
-    
 
     // Constructor
     public EditableBufferedReader(Reader in) {
@@ -103,6 +101,7 @@ public class EditableBufferedReader extends BufferedReader {
 
             } else { 
                 carac=_INVINPUT;
+                
             }
         }else if (carac==BACKSPACE){
             carac=_BACKSPACE;
@@ -146,10 +145,15 @@ public class EditableBufferedReader extends BufferedReader {
                             case _LEFT:
                                 this.line.left();
                             break;
+                            default:
+                            System.out.println("Invalid input!!");
+                            break;
                            
                     }
                 }else if(r_carac!=ENTER){
                     this.line.addCaracter(r_carac);
+                }else{
+                    System.out.println("Invalid input!!");
                 }
                                 
                 System.out.print("\r"+this.line.toString());    

@@ -130,15 +130,12 @@ public class EditableBufferedReader extends BufferedReader {
                            
                     }
                 }else if(r_carac!=Dictionary.ENTER){
-                    this.line.addCaracter(r_carac);
+                    line.addCaracter((char)r_carac);
                 }
-                                
-                System.out.print("\r"+this.line.toString());    
-                System.out.print("\033["+this.line.getPos()+"G"); 
-             
+                     
        } while(r_carac != Dictionary.ENTER);
        this.unsetRaw();
-       return this.line.toString();
+       return line.getLine().toString();
       
       }
 }

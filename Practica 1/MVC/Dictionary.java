@@ -23,5 +23,14 @@ interface Dictionary {
   static final int _END = 203;
   static final int _BACKSPACE = 206;
   static final int _INVINPUT=129;
+
+  public final static Integer cDEL = 1008;
+  public final static Integer cRIGHT = 1009;
+  public final static Integer cLEFT = 1010;
+  public final static Integer cHOME = 1011;
+  public final static Integer cEND = 1012;
+  public final static Integer cINSERT = 1013;
+  public final static Integer cBS = 1014;
+  public final static Integer cREPLACE = 1015;
  
 }

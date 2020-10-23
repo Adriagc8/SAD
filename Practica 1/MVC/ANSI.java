@@ -8,4 +8,6 @@ interface ANSI {
     public final static String LEFT = "\033[1D";
     public final static String RIGHT = "\033[1C";
     public final static String INSERT = "\033[1@"; // Insert the indicated # of blank characters and print the char
+    public final static String END1="\033[";
+    public final static String END2="C";
 }

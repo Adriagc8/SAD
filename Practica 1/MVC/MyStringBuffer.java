@@ -15,6 +15,13 @@ public class MyStringBuffer {
         limit++;
         return this;
     }
+
+    MyStringBuffer deleteCharAt(int offset){
+        for (int i = offset; i < limit -1; i++)
+            str[i] = str[i+1];
+        limit--;
+        return this;
+    }
  
 
     public String toString(){

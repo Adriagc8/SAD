@@ -17,12 +17,12 @@ interface Dictionary {
   static final int _ESCAPE= 200; //a partir de 200 hem definit les escape secuences
   static final int _INSERT = 201;
   static final int _SUPR = 205;
-  static final int _HOME = 200;
+  static final int _HOME = 208;
   static final int _LEFT = 204;
   static final int _RIGHT = 202;
   static final int _END = 203;
   static final int _BACKSPACE = 206;
-  static final int _INVINPUT=129;
+  static final int _INVINPUT=207;
 
   public final static Integer cDEL = 1008;
   public final static Integer cRIGHT = 1009;

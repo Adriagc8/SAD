@@ -74,7 +74,6 @@ public class EditableBufferedReader extends BufferedReader {
                         carac= Dictionary._RIGHT;
                         break;
                     case Dictionary.END:
-                       
                         carac= Dictionary._END;
                         break;
                     default:
@@ -126,6 +125,9 @@ public class EditableBufferedReader extends BufferedReader {
                             break;
                             case Dictionary._LEFT:
                                 this.line.left();
+                            break;
+                            default:
+                                this.line.invInput();
                             break;
                            
                     }

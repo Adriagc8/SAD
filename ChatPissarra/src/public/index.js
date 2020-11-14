@@ -37,6 +37,17 @@ function init() {
         mouse.move = true;
 
     });
+    //Funció principal recursiva
+    function mainLoop() {
+        if(mouse.click && mouse.move && mouse.pos_prev) {
+            socket.emit('draw_line', { line: [mouse.pos, mouse.pos_prev] });
+            mouse.move = false;
+        }
+        mouse.pos_prev = { x: mouse.pos.x, y: mouse.pos.y };
+        setTimeout(mainLoop, 25);
+      }
+
+    mainLoop();
 
 
 } document.addEventListener('DOMContentLoaded', init);

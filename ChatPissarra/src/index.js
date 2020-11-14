@@ -10,7 +10,7 @@ const io = socketIO(server);
 
 // settings
 app.set('port', process.env.PORT || 4000);
-
+require("./sockets")(io);
 
 // static files
 app.use(express.static(path.join(__dirname, 'public')));

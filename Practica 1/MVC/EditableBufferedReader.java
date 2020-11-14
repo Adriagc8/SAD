@@ -45,9 +45,6 @@ public class EditableBufferedReader extends BufferedReader {
     public int read() throws IOException {
         // Caldrà que els sencers retornats com a símbols no es solapin
         // amb els sencers retornats com a caràcters simples.
-
-   
-
         int carac = 0;
        try{
             carac = super.read();

@@ -5,7 +5,7 @@ public class EditableBufferedReader extends BufferedReader {
     private Line line;
     // variables
     static final int ENTER = 13;
-    static final int ESC = 27;
+    static final int ESC = 27; 
     static final int INSERT = 50; // ^[[2~
     static final int SUPR = 51; // ^[[3~
     static final int LEFT = 68; // ^[[D

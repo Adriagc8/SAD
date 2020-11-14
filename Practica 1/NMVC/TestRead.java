@@ -1,7 +1,7 @@
 import java.io.*;
 public class TestRead {
     public static void main(String[] args) {
-        BufferedReader in = new EditableBufferedReader(
+        BufferedReader in = new EditbleBufferedReader(
           new InputStreamReader(System.in));
         int str = 0;
         try {

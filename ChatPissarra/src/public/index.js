@@ -12,25 +12,30 @@ function init() {
 
     // Canvas
     let canvas = document.getElementById('canvas');
+    let clearButton = document.getElementById('clear-WB');
     let context = canvas.getContext('2d');
     let width = window.innerWidth;
     let height = window.innerHeight;
     
-   
+
+
     // Socket IO
     let socket = io();
     // Set the canvas width and height to the browser size
     canvas.width = width/2;
     canvas.height = height/2;
     
-    //fillRect()
-    context.strokeStyle="red";
-   /* context.fillRect(100,100,200,500);
-    context.strokeRect(100,100,200,500);*/
+      
+    clearButton.addEventListener('click', (e)=>{
+        console.log('clear')
+        socket.emit('clearAll');
+    })
 
-    //fillText()
-   // context.fillText('Hello Wolrd', 400, 50)
-   
+
+    socket.on('clearAll', data => {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
 
     //Quan l'usuari clica 
     canvas.addEventListener('mousedown', (e) => {
@@ -63,6 +68,7 @@ function init() {
         
 
     });
+
     //Tractem les dades i dibuixem
     socket.on('draw_line', data => {
         let line = data.line;
@@ -74,7 +80,7 @@ function init() {
     });
 
     //Funció principal recursiva
-  /*function mainLoop() {
+  function mainLoop() {
         if(mouse.click && mouse.move && mouse.pos_prev) {
             socket.emit('draw_line', { line: [mouse.pos, mouse.pos_prev] });
             mouse.move = false;
@@ -84,7 +90,7 @@ function init() {
       }
     mainLoop();
 
-    function circle(){
+   /* function circle(){
         //mouse.pos.x = e.clientX / width;
         
         if(mouse.circle){
@@ -95,7 +101,7 @@ function init() {
         }
         setTimeout(circle, 25);
     }
-    circle();*/
+    circle();
     function square(){
         //mouse.pos.x = e.clientX / width;
         
@@ -112,5 +118,5 @@ function init() {
         }
         setTimeout(square, 25);
     }
-    square();
+    square();*/
 } document.addEventListener('DOMContentLoaded', init);

@@ -16,7 +16,16 @@ module.exports = io => {
             io.emit('draw_line', { line: data.line });
             //console.log(data.line)
         });
-       
+
+        socket.on('clearAll', data => {
+            console.log(line_history);
+            line_history=[];
+            console.log(line_history)
+            io.emit('clearAll');
+            //console.log(data.line)
+        });
+
+
     });
   
   };

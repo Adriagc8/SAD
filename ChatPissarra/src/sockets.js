@@ -7,7 +7,6 @@ module.exports = io => {
 
         for (let i in line_history) {
             //line_history.pop()
-            console.log(line_history)
             socket.emit('draw_line', {line: line_history[i]});
         }
 

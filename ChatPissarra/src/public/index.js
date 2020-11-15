@@ -26,8 +26,8 @@ function init() {
     // Socket IO
     let socket = io();
     // Set the canvas width and height to the browser size
-    canvas.width = width *2/3;
-    canvas.height = height *2/3;
+    canvas.width = width;
+    canvas.height = height/2;
     
       
     clearButton.addEventListener('click', (e)=>{
@@ -68,8 +68,8 @@ function init() {
 
     //Quan l'usuari deixa de clicar
     canvas.addEventListener('mouseup', (e) => {
-        let posFinalx = e.clientX;// /width;
-        let posFinaly = e.clientY; //height;
+        let posFinalx = e.clientX/width;// /width;
+        let posFinaly = e.clientY/height; //height;
         mouse.posFinal = { x: posFinalx, y: posFinaly };
         console.log('mouseUP')
         console.log(mouse)

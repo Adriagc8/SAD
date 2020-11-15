@@ -1,35 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Drawing Nodejs</title>
   <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cosmo/bootstrap.min.css">
+  <!-- FONT AWESOME -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"
+    integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl"
+    crossorigin="anonymous"></script>
+  <!-- MAIN CSS -->
 </head>
-<body>
-  
 
-  
-  
-    <canvas id="canvas"></canvas>
- 
-    <button id='pencil' class="btn btn-warning">
-      <i class="fas fa-location-arrow"></i> Pencil
-    </button>
-    <button id='circle' class="btn btn-warning">
-      <i class="fas fa-location-arrow"></i> Circle
-    </button>
-    <button id='square' class="btn btn-warning">
-      <i class="fas fa-location-arrow"></i> Square
-    </button>
-          <button id='clear-WB' class="btn btn-warning">
-            <i class="fas fa-location-arrow"></i> Clear
-          </button>
- 
+<body>
+
+
+
+  <div class="container">
+    <div class="col-md-20 mt-14">
+      <div class="card">
+        <canvas id="canvas"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="col-md-20 mt-14">
+      <div class="card">
+        <div class="input-group">
+        <button id='pencil' class="btn btn-warning">
+          <i class="fas fa-location-arrow"></i> Pencil
+        </button>
+        <button id='circle' class="btn btn-warning">
+          <i class="fas fa-location-arrow"></i> Circle
+        </button>
+        <button id='square' class="btn btn-warning">
+          <i class="fas fa-location-arrow"></i> Square
+        </button>
+        <button id='clear-WB' class="btn btn-warning">
+          <i class="fas fa-location-arrow"></i> Clear
+        </button>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="col-md-20 mt-14">
+      <div class="card">
+        <div class="card-header">
+          <g4>Chat Pizarra</g4>
+        </div>
+
+        <div id="chat" class="card-body"></div>
+        <form id="message-form" class="card-footer">
+          <div class="input-group">
+            <input type="text" id="message" class="form-control" />
+            <div class="input-group-append">
+              <button class="btn btn-warning">
+                <i class="fas fa-location-arrow"></i> Enviar
+              </button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 
   <!-- SCRIPTS -->
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/index.js"></script>
 </body>
+
 </html>

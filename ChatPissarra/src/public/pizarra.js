@@ -97,6 +97,27 @@ function init() {
         context.lineTo(line[1].x * width, line[1].y * height);
         context.stroke();
     });
+    
+    //Tractem les dades i dibuixem
+    socket.on('draw_circle', data => {
+        let circle = data.circle;
+        console.log(circle);
+        context.lineWidth = 2;
+        context.beginPath();
+        context.arc(circle[0].x* width,circle[0].y*height,30,0, Math.PI*2, false);
+        context.stroke();
+    });
+
+     //Tractem les dades i dibuixem
+     socket.on('draw_square', data => {
+        let square = data.square;
+        context.lineWidth = 2;
+        context.beginPath();
+        let widthS=mouse.posFinal.x-mouse.pos.x;
+        let heightS=mouse.posFinal.y-mouse.pos.y;
+        context.strokeRect(square[0].x* width,square[0].y*height,50, 50);
+        context.stroke();
+    });
 
     //Funció principal recursiva
   function mainLoop() {
@@ -107,26 +128,16 @@ function init() {
         }
         mouse.pos_prev = { x: mouse.pos.x, y: mouse.pos.y };
       }else if(mouse.mode=="circle"){
-        if(mouse.circle){
+        if(mouse.click){
             console.log("circle")
-           // socket.emit('draw_circle', { line: [mouse.pos, mouse.pos_prev] });
-            context.beginPath();
-            context.arc(mouse.pos.x* width,mouse.pos.y*height,30,0, Math.PI*2, false);
-            context.stroke();
+            socket.emit('draw_circle', { circle: [mouse.pos] });
+           
         }
       }else if(mouse.mode=="square"){
-        if(mouse.square){
+        if(mouse.click){
             if(mouse.square){
-                console.log("square")
-                context.beginPath();
-                let widthS=mouse.posFinal.x-mouse.pos.x;
-                let heightS=mouse.posFinal.y-mouse.pos.y;
-                console.log(widthS)
-                console.log(heightS)
-               // context.strokeRect(mouse.pos.x* width,mouse.pos.y*height,widthS, heightS);
-                context.strokeRect(mouse.pos.x* width,mouse.pos.y*height,50, 50);
-                context.stroke();
-                mouse.square=false;
+                socket.emit('draw_square', { square: [mouse.pos] });
+               
             }
         }
       }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Drawing Nodejs</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cosmo/bootstrap.min.css">
+  <!-- FONT AWESOME -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"
+    integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl"
+    crossorigin="anonymous"></script>
+  <!-- MAIN CSS -->
+</head>
+
+<body>
+   
+   <!-- NICKNAME FORM -->
+   <div id="nickWrap">
+    <div class="row">
+      <div class="col-md-4 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            <h3>Enter your Username</h3>
+          </div>
+          <p id="nickError"></p>
+          <div class="card-body">
+            <form method="POST" id="nickForm" action="/whiteboard/chat">
+              <input id="nickname" type="text" class="form-control" autofocus />
+              <input type="submit" class="btn btn-warning btn-block mt-2" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SCRIPTS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/chat.js"></script>
+  <script src="/pizarra.js"></script>
+</body>
+
+</html>

@@ -93,6 +93,7 @@ function init() {
         let line = data.line;
         context.beginPath();
         context.lineWidth = 2;
+        context.strokeStyle='orange';
        context.moveTo(line[0].x * width, line[0].y * height);
         context.lineTo(line[1].x * width, line[1].y * height);
         context.stroke();
@@ -103,6 +104,7 @@ function init() {
         let circle = data.circle;
         console.log(circle);
         context.lineWidth = 2;
+        context.strokeStyle='orange';
         context.beginPath();
         context.arc(circle[0].x* width,circle[0].y*height,30,0, Math.PI*2, false);
         context.stroke();
@@ -113,6 +115,7 @@ function init() {
         let square = data.square;
         context.lineWidth = 2;
         context.beginPath();
+        context.strokeStyle='orange';
         let widthS=mouse.posFinal.x-mouse.pos.x;
         let heightS=mouse.posFinal.y-mouse.pos.y;
         context.strokeRect(square[0].x* width,square[0].y*height,50, 50);

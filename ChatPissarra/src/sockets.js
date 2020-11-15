@@ -4,7 +4,7 @@ module.exports = io => {
     let line_history = [];
     let circle_history=[];
     let square_history=[];
-  
+    
     io.on('connection', socket => {
 
         for (let i in line_history) {
@@ -46,6 +46,7 @@ module.exports = io => {
             circle_history=[];
             square_history=[];
             io.emit('clearAll');
+        
             //console.log(data.line)
         });
 

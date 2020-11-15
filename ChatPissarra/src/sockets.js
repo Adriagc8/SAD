@@ -4,6 +4,8 @@ module.exports = io => {
     let line_history = [];
     let circle_history=[];
     let square_history=[];
+    //Array de usuaris
+    let nicknames = [];
     
     io.on('connection', socket => {
 
@@ -29,10 +31,30 @@ module.exports = io => {
             
         });
 
-       
-    
+        //Mirem que estigui creat l'ususari
+        socket.on('new user', (data, cb) => {
+            if (nicknames.indexOf(data) != -1) {
+              cb(false);
+            } else {
+              cb(true);
+              socket.nickname = data;
+              nicknames.push(socket.nickname);
+              io.sockets.emit('usernames', nicknames);           
+            }
+         });
+
+        //Cada cop que rep un missatge el reenvia a tots els clients
         socket.on('send message', function(data){
-            io.sockets.emit('new message', data);
+            io.sockets.emit('new message', {
+                msg: data,
+                nick: socket.nickname
+            });
+        });
+
+        socket.on('disconnect', data => {
+            if(!socket.nickname) return;
+            nicknames.splice(nicknames.indexOf(socket.nickname), 1);
+            io.sockets.emit('usernames', nicknames);
         });
 
         socket.on('draw_square', data => {

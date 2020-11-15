@@ -28,6 +28,16 @@ module.exports = io => {
             io.emit('draw_circle', { circle: data.circle });
             
         });
+        
+        io.on('connection', socket => {
+            console.log('new user connected');
+            
+    
+            socket.on('send message', function(data){
+                io.sockets.emit('new message', data);
+            });
+        });
+
         socket.on('draw_square', data => {
             square_history.push(data.square);
             io.emit('draw_square', { square: data.square });

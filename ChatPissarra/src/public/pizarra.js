@@ -1,5 +1,6 @@
 function init() {
     //creem un objecte mouse on definim les principals movilitats del usuari
+    // window.location.href="http://localhost:4000/whiteboard/chat";
     let mouse = {
         click: false,
         move: false,
@@ -8,7 +9,8 @@ function init() {
         pos_prev: false,
         circle:false,
         square:false,
-        mode:"pencil"
+        mode:"pencil",
+        color:'black'
     };
 
     // Canvas
@@ -88,12 +90,18 @@ function init() {
 
     });
 
+    socket.on('color',data=>{
+        let color=data.color;
+        mouse.color=color;
+    })
+
     //Tractem les dades i dibuixem
     socket.on('draw_line', data => {
         let line = data.line;
         context.beginPath();
         context.lineWidth = 2;
-        context.strokeStyle='orange';
+        context.strokeStyle=line[2];
+        console.log(line)
        context.moveTo(line[0].x * width, line[0].y * height);
         context.lineTo(line[1].x * width, line[1].y * height);
         context.stroke();
@@ -104,7 +112,7 @@ function init() {
         let circle = data.circle;
         console.log(circle);
         context.lineWidth = 2;
-        context.strokeStyle='orange';
+        context.strokeStyle=mouse.color;
         context.beginPath();
         context.arc(circle[0].x* width,circle[0].y*height,30,0, Math.PI*2, false);
         context.stroke();
@@ -115,7 +123,7 @@ function init() {
         let square = data.square;
         context.lineWidth = 2;
         context.beginPath();
-        context.strokeStyle='orange';
+        context.strokeStyle=mouse.color;
         let widthS=mouse.posFinal.x-mouse.pos.x;
         let heightS=mouse.posFinal.y-mouse.pos.y;
         context.strokeRect(square[0].x* width,square[0].y*height,50, 50);
@@ -126,20 +134,20 @@ function init() {
   function mainLoop() {
       if(mouse.mode=="pencil"){
         if(mouse.click && mouse.move && mouse.pos_prev) {
-            socket.emit('draw_line', { line: [mouse.pos, mouse.pos_prev] });
+            socket.emit('draw_line', { line: [mouse.pos, mouse.pos_prev, mouse.color] });
             mouse.move = false;
         }
         mouse.pos_prev = { x: mouse.pos.x, y: mouse.pos.y };
       }else if(mouse.mode=="circle"){
         if(mouse.click){
             console.log("circle")
-            socket.emit('draw_circle', { circle: [mouse.pos] });
+            socket.emit('draw_circle', { circle: [mouse.pos, mouse.color] });
            
         }
       }else if(mouse.mode=="square"){
         if(mouse.click){
             if(mouse.square){
-                socket.emit('draw_square', { square: [mouse.pos] });
+                socket.emit('draw_square', { square: [mouse.pos, mouse.color] });
                
             }
         }

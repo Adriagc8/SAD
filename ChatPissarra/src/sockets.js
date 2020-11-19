@@ -6,6 +6,8 @@ module.exports = io => {
     let square_history=[];
     //Array de usuaris
     let nicknames = [];
+    let colors=['blue','orange','red','green'];
+    let ocupeColors=[];
     
     io.on('connection', socket => {
 
@@ -19,6 +21,12 @@ module.exports = io => {
         for (let i in square_history){
             socket.emit('draw_square', {square: square_history[i]});
         }
+        // let color=colors.pop();
+        // console.log(color)
+        // console.log(colors)
+        // ocupeColors.push(color);
+        // console.log(ocupeColors)
+        // socket.emit('color',{color:color});
         socket.on('draw_line', data => {
             line_history.push(data.line);
             io.emit('draw_line', { line: data.line });
@@ -33,6 +41,8 @@ module.exports = io => {
 
         //Mirem que estigui creat l'ususari
         socket.on('new user', (data, cb) => {
+            console.log(data)
+
             if (nicknames.indexOf(data) != -1) {
               cb(false);
             } else {
@@ -52,6 +62,7 @@ module.exports = io => {
         });
 
         socket.on('disconnect', data => {
+
             if(!socket.nickname) return;
             nicknames.splice(nicknames.indexOf(socket.nickname), 1);
             io.sockets.emit('usernames', nicknames);

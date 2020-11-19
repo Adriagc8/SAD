@@ -9,7 +9,8 @@ router.get('/', (req,res)=>{
 
 });
 
-router.post('/whiteboard/chat', (req,res)=>{
+router.get('/whiteboard/chat', (req,res)=>{
+
     let p= path.join(__dirname, 'public/index.html')
 
    res.sendFile(p);

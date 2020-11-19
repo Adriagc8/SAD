@@ -13,7 +13,7 @@ app.set('port', process.env.PORT || 4000);
 require("./sockets")(io);
 
 //Routes
-app.use('/', require('./routes'));
+// app.use('/', require('./routes'));
 
 
 // static files

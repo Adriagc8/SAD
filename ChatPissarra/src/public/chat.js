@@ -30,6 +30,7 @@ $(function () {
         }
       });
       $nickname.val('');
+     
     });
 
     socket.on('clearAll', data => {
@@ -42,6 +43,7 @@ $(function () {
     });
 
     socket.on('usernames', data => {
+      console.log(data)
       let html = '';
       for(i = 0; i < data.length; i++) {
         html += `<p><i class="fas fa-user"></i> ${data[i]}</p>`; 

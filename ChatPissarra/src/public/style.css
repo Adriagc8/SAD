@@ -12,6 +12,10 @@
 
   }
 
+  #contentWrap{
+    display: none;
+  }
+
   
   /*
   body, html {

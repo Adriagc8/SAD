@@ -55,6 +55,7 @@ module.exports = io => {
 
         //Cada cop que rep un missatge el reenvia a tots els clients
         socket.on('send message', function(data){
+            console.log(data)
             io.sockets.emit('new message', {
                 msg: data,
                 nick: socket.nickname

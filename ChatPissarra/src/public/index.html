@@ -31,15 +31,19 @@
       </form>
     </div>
   </div>
-  <div class="container" id="contentWrap">
-    <div class="row mt-5">
 
 
 
-      <div id="pizarra">
-        <canvas id="canvas"></canvas>
-      </div>
+  <!-- <div class="container" id="contentWrap">
+   -->
+  <div id="contentWrap">
 
+    <div id="pizarra">
+      <canvas id="canvas"></canvas>
+    </div>
+
+
+    <div class="row mt-6">
       <div class="container">
         <div class="col-md-20 mt-14">
           <div class="card">
@@ -64,35 +68,37 @@
         <div class="col-md-20 mt-14">
           <div class="card">
             <div class="card-header">
-              <g4>Chat Pizarra</g4>
+              <g4>Whiteboard Chat </g4>
             </div>
 
-            <div id="chat" class="card-body"></div>
-            <form id="message-form" class="card-footer">
+            <div id="chat" class="card-body"></div> 
+            <form id="message-form" class="card-footer"> 
               <div class="input-group">
-                <input type="text" id="message" class="form-control" />
+                <input type="text" id="message" class="form-control" /> 
                 <div class="input-group-append">
                   <button class="btn btn-warning">
-                    <i class="fas fa-location-arrow"></i> Enviar
+                    <i class="fas fa-location-arrow"></i> Send
                   </button>
                 </div>
             </form>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-header bg-dark text-white">
-              <h3>Users</h3>
-            </div>
-            <div class="card-body">
-              <div id="usernames"></div>
-            </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header bg-dark text-white">
+            <h3>Users</h3>
+          </div>
+          <div class="card-body">
+            <div id="usernames"></div>
           </div>
         </div>
       </div>
+      
+
     </div>
   </div>
-  </div>
+
 
 
   <!-- SCRIPTS -->
@@ -100,7 +106,7 @@
     crossorigin="anonymous"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/chat.js"></script>
-  <!-- <script src="/pizarra.js"></script> -->
+  <script src="/pizarra.js"></script>
 </body>
 
 </html>

@@ -6,11 +6,11 @@ function init() {
         move: false,
         pos: { x: 0, y: 0 },
         posFinal: false,
+        posIni: false,
         pos_prev: false,
-        circle:false,
-        square:false,
-        mode:"pencil",
-        color:'black'
+        square: 0,
+        mode: "pencil"
+
     };
 
     // Canvas
@@ -22,62 +22,137 @@ function init() {
     let context = canvas.getContext('2d');
     let width = window.innerWidth;
     let height = window.innerHeight;
-    
+
+    //Chat
+
+    let messageButton = document.getElementById('message-form');
+    let messageBox = document.getElementById('message');
+    let chat = document.getElementById('chat');
+    let nickButton = document.getElementById('nickForm');
+    let nickName = document.getElementById('nickname')
+    let nickError = document.getElementById('nickError')
+    let users = document.getElementById('usernames')
 
 
     // Socket IO
     let socket = io();
     // Set the canvas width and height to the browser size
-    canvas.width = width;
-    canvas.height = height/2;
-    
-      
-    clearButton.addEventListener('click', (e)=>{
+    canvas.width = width * 11.05 / 14;
+    canvas.height = height / 2;
+
+
+    nickButton.addEventListener('submit', (e) => {
+        e.preventDefault();
+        socket.emit('new user', nickName.value, data => {
+            if (data) {
+                $('#nickWrap').hide();
+                $('#contentWrap').show();
+                $('#message').focus();
+            } else {
+                //   COMENTAR
+                nickError.html(`
+              <div class="alert alert-danger">
+                That username already Exists.
+              </div>`);
+            }
+        });
+        nickname.value;
+
+
+    })
+
+
+    messageButton.addEventListener('submit', (e) => {
+        e.preventDefault();
+        socket.emit('send message', messageBox.value, data => {
+            let error = document.createElement('p')
+            error.className = "error";
+            chat.appendChild(error);
+            chat.appendChild(document.createTextNode(data));
+            chat.appendChild(document.createElement('p'));
+        });
+        messageBox.value;
+    });
+
+    //Editem la variable del chat
+    socket.on('new message', function (data) {
+        console.log(data);
+        chat.appendChild(document.createElement('b'));
+        chat.appendChild(document.createTextNode(data.nick + ': '));
+        chat.appendChild(document.createElement('b'));
+        chat.appendChild(document.createTextNode(data.msg));
+        chat.appendChild(document.createElement('br'));
+
+    });
+
+    socket.on('usernames', data => {
+        //   COMENTAR
+        console.log(data)
+        let html = '';
+        for (i = 0; i < data.length; i++) {
+            html += `<p><i class="fas fa-user"></i> ${data[i]}</p>`;
+        }
+        users.html(html);
+    });
+
+
+    clearButton.addEventListener('click', (e) => {
         console.log('clear')
         socket.emit('clearAll');
     })
 
-    pencilButton.addEventListener('click', (e)=>{
+    pencilButton.addEventListener('click', (e) => {
         console.log('mode circle');
-        mouse.mode="pencil";
+        mouse.mode = "pencil";
     })
 
-    squareButton.addEventListener('click', (e)=>{
+    squareButton.addEventListener('click', (e) => {
         console.log('mode square');
-       mouse.mode="square";
+        mouse.mode = "square";
     })
 
-    circleButton.addEventListener('click', (e)=>{
+    circleButton.addEventListener('click', (e) => {
         console.log('mode circle');
-        mouse.mode="circle";
+        mouse.mode = "circle";
     })
 
 
     socket.on('clearAll', data => {
+        // chat.clear();
         context.clearRect(0, 0, canvas.width, canvas.height);
     });
 
 
     //Quan l'usuari clica 
     canvas.addEventListener('mousedown', (e) => {
+        
         mouse.pos.x = e.clientX / width;
         mouse.pos.y = e.clientY / height;
         mouse.click = true;
-        mouse.circle=true;
         console.log(mouse)
+        if (mode = "square" && mouse.square == 0) {
+            mouse.posIni = {x:mouse.pos.x, y:mouse.pos.y}
+            console.log(mouse.posIni);
+            mouse.square = 1;
+        }
+
 
     });
 
     //Quan l'usuari deixa de clicar
     canvas.addEventListener('mouseup', (e) => {
-        let posFinalx = e.clientX/width;// /width;
-        let posFinaly = e.clientY/height; //height;
-        mouse.posFinal = { x: posFinalx, y: posFinaly };
+        let posFinalx = e.clientX / width;
+        let posFinaly = e.clientY / height;
+
+        if (mode = "square" && mouse.square == 1) {
+            console.log(mouse.posIni);
+            mouse.posFinal = { x: posFinalx, y: posFinaly };
+            mouse.square = 2;
+        }
+
         console.log('mouseUP')
         console.log(mouse)
         mouse.click = false;
-        mouse.circle=false;
-        mouse.square=true;
 
 
     });
@@ -86,13 +161,11 @@ function init() {
         mouse.pos.x = e.clientX / width;
         mouse.pos.y = e.clientY / height;
         mouse.move = true;
-        
-
     });
 
-    socket.on('color',data=>{
-        let color=data.color;
-        mouse.color=color;
+    socket.on('color', data => {
+        let color = data.color;
+        mouse.color = color;
     })
 
     //Tractem les dades i dibuixem
@@ -100,90 +173,61 @@ function init() {
         let line = data.line;
         context.beginPath();
         context.lineWidth = 2;
-        context.strokeStyle=line[2];
+        context.strokeStyle = line[2];
         console.log(line)
-       context.moveTo(line[0].x * width, line[0].y * height);
+        context.moveTo(line[0].x * width, line[0].y * height);
         context.lineTo(line[1].x * width, line[1].y * height);
         context.stroke();
     });
-    
+
     //Tractem les dades i dibuixem
     socket.on('draw_circle', data => {
         let circle = data.circle;
         console.log(circle);
         context.lineWidth = 2;
-        context.strokeStyle=mouse.color;
+        context.strokeStyle = circle[1];
         context.beginPath();
-        context.arc(circle[0].x* width,circle[0].y*height,30,0, Math.PI*2, false);
+        context.arc(circle[0].x * width, circle[0].y * height, 30, 0, Math.PI * 2, false);
         context.stroke();
     });
 
-     //Tractem les dades i dibuixem
-     socket.on('draw_square', data => {
+    //Tractem les dades i dibuixem
+    socket.on('draw_square', data => {
         let square = data.square;
         context.lineWidth = 2;
         context.beginPath();
-        context.strokeStyle=mouse.color;
-        let widthS=mouse.posFinal.x-mouse.pos.x;
-        let heightS=mouse.posFinal.y-mouse.pos.y;
-        context.strokeRect(square[0].x* width,square[0].y*height,50, 50);
+        context.strokeStyle = square[1];
+        let widthS = square[1].x - square[0].x;
+        let heightS = square[1].y - square[0].y;
+        context.strokeRect(square[0].x * width, square[0].y * height,widthS*width, heightS*height);
         context.stroke();
     });
 
     //Funció principal recursiva
-  function mainLoop() {
-      if(mouse.mode=="pencil"){
-        if(mouse.click && mouse.move && mouse.pos_prev) {
-            socket.emit('draw_line', { line: [mouse.pos, mouse.pos_prev, mouse.color] });
-            mouse.move = false;
-        }
-        mouse.pos_prev = { x: mouse.pos.x, y: mouse.pos.y };
-      }else if(mouse.mode=="circle"){
-        if(mouse.click){
-            console.log("circle")
-            socket.emit('draw_circle', { circle: [mouse.pos, mouse.color] });
-           
-        }
-      }else if(mouse.mode=="square"){
-        if(mouse.click){
-            if(mouse.square){
-                socket.emit('draw_square', { square: [mouse.pos, mouse.color] });
-               
+    function mainLoop() {
+        if (mouse.mode == "pencil") {
+            if (mouse.click && mouse.move && mouse.pos_prev) {
+                socket.emit('draw_line', { line: [mouse.pos, mouse.pos_prev, mouse.color] });
+                mouse.move = false;
+            }
+            mouse.pos_prev = { x: mouse.pos.x, y: mouse.pos.y };
+        } else if (mouse.mode == "circle") {
+            if (mouse.click) {
+                console.log("circle")
+                socket.emit('draw_circle', { circle: [mouse.pos, mouse.color] });
+
+            }
+        } else if (mouse.mode == "square") {
+            if (mouse.square == 2) {
+                console.log(mouse)
+                socket.emit('draw_square', { square: [mouse.posIni, mouse.posFinal, mouse.color] });
+                mouse.square = 0;
+
             }
         }
-      }
-      
+
         setTimeout(mainLoop, 25);
-      }
+    }
     mainLoop();
 
-   /* function circle(){
-        //mouse.pos.x = e.clientX / width;
-        
-        if(mouse.circle){
-            console.log("circle")
-            context.beginPath();
-            context.arc(mouse.pos.x* width,mouse.pos.y*height,30,0, Math.PI*2, false);
-            context.stroke();
-        }
-        setTimeout(circle, 25);
-    }
-    circle();*/
-   /* function square(){
-        //mouse.pos.x = e.clientX / width;
-        
-        if(mouse.square){
-            console.log("square")
-            context.beginPath();
-            let widthS=mouse.posFinal.x-mouse.pos.x;
-            let heightS=mouse.posFinal.y-mouse.pos.y;
-            console.log(widthS)
-            console.log(heightS)
-            context.strokeRect(mouse.pos.x* width,mouse.pos.y*height,widthS, heightS);
-            context.stroke();
-            mouse.square=false;
-        }
-        setTimeout(square, 25);
-    }
-    square();*/
 } document.addEventListener('DOMContentLoaded', init);

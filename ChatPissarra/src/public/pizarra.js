@@ -37,8 +37,9 @@ function init() {
     // Socket IO
     let socket = io();
     // Set the canvas width and height to the browser size
-    canvas.width = width * 11.05 / 14;
-    canvas.height = height / 2;
+    canvas.width = width * 0.5779;// 11.05 / 14;
+    canvas.height = height/ 2;
+    translateX=width/4.75;
 
 
     nickButton.addEventListener('submit', (e) => {
@@ -174,22 +175,22 @@ function init() {
         context.lineWidth = 2;
         context.strokeStyle = line[2];
         console.log(line)
-        context.moveTo(line[0].x * width, line[0].y * height);
-        context.lineTo(line[1].x * width, line[1].y * height);
+        context.moveTo(line[0].x * width-translateX, line[0].y * height);
+        context.lineTo(line[1].x * width-translateX, line[1].y * height);
+      	
         context.stroke();
     });
 
     //Tractem les dades i dibuixem
     socket.on('draw_circle', data => {
         let circle = data.circle;
-        console.log(circle);
+        context.beginPath();
         context.lineWidth = 2;
-        context.strokeStyle = circle[1];
+        console.log(circle[2]);
+        context.strokeStyle = circle[2];
         let widthS = circle[1].x - circle[0].x;
         let heightS = circle[1].y - circle[0].y;
-        console.log(widthS)
-        context.beginPath();
-        context.arc(circle[0].x * width, circle[0].y * height, widthS*width, 0, Math.PI * 2, false);
+        context.arc(circle[0].x * width-translateX, circle[0].y * height, widthS*width, 0, Math.PI * 2, false);
         context.stroke();
     });
 
@@ -198,10 +199,11 @@ function init() {
         let square = data.square;
         context.lineWidth = 2;
         context.beginPath();
-        context.strokeStyle = square[1];
+        console.log(square[2]);
+        context.strokeStyle = square[2];
         let widthS = square[1].x - square[0].x;
         let heightS = square[1].y - square[0].y;
-        context.strokeRect(square[0].x * width, square[0].y * height,widthS*width, heightS*height);
+        context.strokeRect(square[0].x * width-translateX, square[0].y * height,widthS*width, heightS*height);
         context.stroke();
     });
 

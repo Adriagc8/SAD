@@ -8,7 +8,7 @@ function init() {
         posFinal: false,
         posIni: false,
         pos_prev: false,
-        square: 0,
+        state: 0,
         mode: "pencil"
 
     };
@@ -130,10 +130,9 @@ function init() {
         mouse.pos.y = e.clientY / height;
         mouse.click = true;
         console.log(mouse)
-        if (mode = "square" && mouse.square == 0) {
+        if (mouse.mode!= "pencil" && mouse.state == 0) {
             mouse.posIni = {x:mouse.pos.x, y:mouse.pos.y}
-            console.log(mouse.posIni);
-            mouse.square = 1;
+            mouse.state = 1;
         }
 
 
@@ -144,10 +143,10 @@ function init() {
         let posFinalx = e.clientX / width;
         let posFinaly = e.clientY / height;
 
-        if (mode = "square" && mouse.square == 1) {
+        if (mouse.mode!= "pencil" && mouse.state == 1) {
             console.log(mouse.posIni);
             mouse.posFinal = { x: posFinalx, y: posFinaly };
-            mouse.square = 2;
+            mouse.state = 2;
         }
 
         console.log('mouseUP')
@@ -186,8 +185,11 @@ function init() {
         console.log(circle);
         context.lineWidth = 2;
         context.strokeStyle = circle[1];
+        let widthS = circle[1].x - circle[0].x;
+        let heightS = circle[1].y - circle[0].y;
+        console.log(widthS)
         context.beginPath();
-        context.arc(circle[0].x * width, circle[0].y * height, 30, 0, Math.PI * 2, false);
+        context.arc(circle[0].x * width, circle[0].y * height, widthS*width, 0, Math.PI * 2, false);
         context.stroke();
     });
 
@@ -212,16 +214,17 @@ function init() {
             }
             mouse.pos_prev = { x: mouse.pos.x, y: mouse.pos.y };
         } else if (mouse.mode == "circle") {
-            if (mouse.click) {
+            if (mouse.state==2) {
                 console.log("circle")
-                socket.emit('draw_circle', { circle: [mouse.pos, mouse.color] });
+                socket.emit('draw_circle', { circle: [mouse.posIni, mouse.posFinal, mouse.color] });
+                mouse.state=0;
 
             }
         } else if (mouse.mode == "square") {
-            if (mouse.square == 2) {
+            if (mouse.state == 2) {
                 console.log(mouse)
                 socket.emit('draw_square', { square: [mouse.posIni, mouse.posFinal, mouse.color] });
-                mouse.square = 0;
+                mouse.state = 0;
 
             }
         }

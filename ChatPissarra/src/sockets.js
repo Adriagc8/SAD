@@ -9,6 +9,11 @@ module.exports = io => {
     let colors = ['black', 'blue', 'orange', 'red', 'green', 'purple', 'yellow', 'lime', 'coral'];
 
     io.on('connection', socket => {
+        let color = colors.shift();
+        console.log(color)
+        console.log(colors)
+        socket.color = color;
+        socket.emit('color', { color: color });
 
         for (let i in line_history) {
             socket.emit('draw_line', { line: line_history[i] });
@@ -20,12 +25,7 @@ module.exports = io => {
         for (let i in square_history) {
             socket.emit('draw_square', { square: square_history[i] });
         }
-        let color = colors.shift();
-        console.log(color)
-        console.log(colors)
-        socket.color = color;
-        socket.emit('color', { color: color });
-
+       
 
         //Mirem que estigui creat l'ususari
         socket.on('new user', (data, cb) => {

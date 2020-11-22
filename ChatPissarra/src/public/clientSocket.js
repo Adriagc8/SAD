@@ -51,10 +51,11 @@ function init() {
                 $('#message').focus();
             } else {
                 //   COMENTAR
-                nickError.html(`
-              <div class="alert alert-danger">
-                That username already Exists.
-              </div>`);
+                let html=`
+                <div class="alert alert-danger">
+                  That username already Exists.
+                </div>`;
+                nickError.innerHTML=html;
             }
         });
         nickname.value;
@@ -66,11 +67,8 @@ function init() {
     messageButton.addEventListener('submit', (e) => {
         e.preventDefault();
         socket.emit('send message', messageBox.value, data => {
-            let error = document.createElement('p')
-            error.className = "error";
-            chat.appendChild(error);
-            chat.appendChild(document.createTextNode(data));
-            chat.appendChild(document.createElement('p'));
+            let html = ` <p class="error">${data}</p>`;
+        chat.innerHTML += html;
         });
         messageBox.value;
     });
@@ -78,22 +76,17 @@ function init() {
     //Editem la variable del chat
     socket.on('new message', function (data) {
         console.log(data);
-        chat.appendChild(document.createElement('b'));
-        chat.appendChild(document.createTextNode(data.nick + ': '));
-        chat.appendChild(document.createElement('b'));
-        chat.appendChild(document.createTextNode(data.msg));
-        chat.appendChild(document.createElement('br'));
-
+        let html = ` <b> ${data.nick}  : </b>  ${data.msg}  <br/>`;
+        chat.innerHTML += html;
     });
 
     socket.on('usernames', data => {
-        //   COMENTAR
-        console.log(data)
+        
         let html = '';
         for (i = 0; i < data.length; i++) {
             html += `<p><i class="fas fa-user"></i> ${data[i]}</p>`;
         }
-        users.html(html);
+        users.innerHTML = html;
     });
 
 
@@ -190,7 +183,12 @@ function init() {
         context.strokeStyle = circle[2];
         let widthS = circle[1].x - circle[0].x;
         let heightS = circle[1].y - circle[0].y;
-        context.arc(circle[0].x * width-translateX, circle[0].y * height, widthS*width, 0, Math.PI * 2, false);
+        let a=Math.pow(widthS,2);
+        let b=Math.pow(heightS,2);
+        let h=Math.sqrt((a+b))
+        console.log(widthS)
+        console.log(h)
+        context.arc(circle[0].x * width-translateX, circle[0].y * height, h*width/2, 0, Math.PI * 2, false);
         context.stroke();
     });
 

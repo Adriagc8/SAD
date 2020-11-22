@@ -14,15 +14,13 @@
 
   #contentWrap{
     display: none;
+ 
+  }
+  #box{
+    display: flex;
+    flex-direction: row;
   }
 
-  
-  /*
-  body, html {
-    width: 100%;
-    height: 100%;
-  }*/
-  
   #canvas {
     border: 2px solid black;
     background: white;

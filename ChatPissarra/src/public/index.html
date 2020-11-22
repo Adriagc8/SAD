@@ -14,11 +14,7 @@
 </head>
 
 <body>
-  <!-- NAVBAR  <nav class="navbar navbar-dark bg-warning">
-  <a class="navbar-brand mx-auto" href="/">
-    ChatPissarra
-  </a>
-</nav>-->
+
   <div id="nickWrap" class="card col-md-4 mx-auto mt-5">
     <div class="card-header">
       <h3>Enter your Username</h3>
@@ -30,17 +26,155 @@
         <input type="submit" class="btn btn-warning btn-block mt-2" />
       </form>
     </div>
+  </div> 
+
+  <!-- <div id="contentWrap">
+    <div class="container">
+      
+        <div class="col-md-8 mt-14">
+
+          <div id="pizarra">
+            <canvas id="canvas"></canvas>
+          </div>
+          <div class="card">
+            <div class="input-group">
+              <button id='pencil' class="btn btn-warning">
+                <i class="fas fa-location-arrow"></i> Pencil
+              </button>
+              <button id='circle' class="btn btn-warning">
+                <i class="fas fa-location-arrow"></i> Circle
+              </button>
+              <button id='square' class="btn btn-warning">
+                <i class="fas fa-location-arrow"></i> Square
+              </button>
+              <button id='clear-WB' class="btn btn-warning">
+                <i class="fas fa-location-arrow"></i> Clear
+              </button>
+            </div>
+          </div>
+        </div>
+    </div> 
+    <div class="container">
+        <div class="row">
+        <div class="cl-md-8">
+          <div class="card">
+            <div class="card-header">
+              <g4>Whiteboard Chat </g4>
+            </div>
+
+            <div id="chat" class="card-body"></div>
+            <form id="message-form" class="card-footer">
+              <div class="input-group">
+                <input type="text" id="message" class="form-control" />
+                <div class="input-group-append">
+                  <button class="btn btn-warning">
+                    <i class="fas fa-location-arrow"></i> Send
+                  </button>
+                </div>
+            </form>
+          </div>
+        </div>
+        <div class="cl-md-4">
+          <div class="card">
+            <div class="card-header bg-dark text-white">
+              <h3>Users</h3>
+            </div>
+            <div class="card-body">
+              <div id="usernames"></div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
   </div>
+  </div> -->
+
+   <!-- <div id="contentWrap" >  
+
+    <div  class="row mt-6">
+        
+      <div class="container">
+
+        <div id="box" class="card">
+
+          <div class="container">
+
+            <div class="row">
+
+              <div class="col-md-8 mt-14">
+              
+                <div id="pizarra">
+                    <canvas id="canvas"></canvas>
+                </div>
+                <div class="card">
+                    <div class="input-group">
+                      <button id='pencil' class="btn btn-warning">
+                        <i class="fas fa-location-arrow"></i> Pencil
+                      </button>
+                      <button id='circle' class="btn btn-warning">
+                        <i class="fas fa-location-arrow"></i> Circle
+                      </button>
+                      <button id='square' class="btn btn-warning">
+                        <i class="fas fa-location-arrow"></i> Square
+                      </button>
+                      <button id='clear-WB' class="btn btn-warning">
+                        <i class="fas fa-location-arrow"></i> Clear
+                      </button>
+                    </div>
+                </div>
+              
+                <div class="card">
+                  <div class="card-header">
+                    <g4>Whiteboard Chat </g4>
+                  </div>
+      
+                  <div id="chat" class="card-body"></div>
+                  <form id="message-form" class="card-footer">
+                    <div class="input-group">
+                      <input type="text" id="message" class="form-control" />
+                      <div class="input-group-append">
+                        <button class="btn btn-warning">
+                          <i class="fas fa-location-arrow"></i> Send
+                        </button>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            
+
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header bg-dark text-white">
+                  <h3>Users</h3>
+                </div>
+                <div class="card-body">
+                  <div id="usernames"></div>
+                </div>
+              </div>
+            </div>
+          
+            
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div> 
+  -->
 
 
-
-  <!-- <div class="container" id="contentWrap">
-   -->
   <div id="contentWrap">
-
- 
-
-
     <div class="row mt-6">
       <div class="container">
         <div class="card">
@@ -101,14 +235,11 @@
     </div>
   </div>
 
-
-
   <!-- SCRIPTS -->
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/chat.js"></script>
-  <script src="/pizarra.js"></script>
+  <script src="/clientSocket.js"></script>
 </body>
 
 </html>

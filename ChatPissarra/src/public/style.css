@@ -23,6 +23,11 @@
 
   #canvas {
     border: 2px solid black;
-    background: white;
+     /*background: white;*/
+     /* background-image:url("./backWB.png"); */
+  background-size:     cover;                      
+  background-repeat:   no-repeat;
+  background-position: center center;
+  
    /*display: block;*/
   }

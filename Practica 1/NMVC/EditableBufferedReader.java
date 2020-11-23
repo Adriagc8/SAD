@@ -68,7 +68,7 @@ public class EditableBufferedReader extends BufferedReader {
         int carac = 0;
        try{
             carac = super.read();
-        if (carac == ESC) { //sequencia d'escape
+        if (carac == ESC)  { //sequencia d'escape
             carac = super.read();
             if (carac == CORCHETE) {
                 carac = super.read();

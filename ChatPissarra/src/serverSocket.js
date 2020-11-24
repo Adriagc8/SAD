@@ -10,8 +10,6 @@ module.exports = io => {
 
     io.on('connection', socket => {
         let color = colors.shift();
-        console.log(color)
-        console.log(colors)
         socket.color = color;
         socket.emit('color', { color: color });
 
@@ -29,8 +27,6 @@ module.exports = io => {
 
         //Mirem que estigui creat l'ususari
         socket.on('new user', (data, cb) => {
-            console.log(data)
-
             if (nicknames.indexOf(data) != -1) {
                 cb(false);
             } else {
@@ -43,7 +39,6 @@ module.exports = io => {
 
         //Cada cop que rep un missatge el reenvia a tots els clients
         socket.on('send message', function (data) {
-            console.log(data)
             io.sockets.emit('new message', {
                 msg: data,
                 nick: socket.nickname
@@ -51,14 +46,13 @@ module.exports = io => {
         });
 
         socket.on('disconnect', data => {
-            console.log(socket)
+         
             if (!socket.nickname) return;
             nicknames.splice(nicknames.indexOf(socket.nickname), 1);
             colors.push(socket.color);
-            console.log(colors)
             io.sockets.emit('usernames', nicknames);
         });
-        
+
         socket.on('draw_line', data => {
             line_history.push(data.line);
             io.emit('draw_line', { line: data.line });
@@ -70,8 +64,6 @@ module.exports = io => {
 
         });
         socket.on('draw_square', data => {
-
-            console.log(data)
             square_history.push(data.square);
             io.emit('draw_square', { square: data.square });
 

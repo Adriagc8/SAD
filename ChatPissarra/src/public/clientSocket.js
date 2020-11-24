@@ -67,7 +67,7 @@ function init() {
                 nickError.innerHTML = html;
             }
         });
-        nickname.value;
+        nickname.value='';
 
 
     })
@@ -79,7 +79,7 @@ function init() {
             let html = ` <p class="error">${data}</p>`;
             chat.innerHTML += html;
         });
-        messageBox.value;
+        messageBox.value='';
     });
 
     //Editem la variable del chat

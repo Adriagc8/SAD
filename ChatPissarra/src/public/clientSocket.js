@@ -47,6 +47,7 @@ function init() {
 
     //CHAT
     clearChat.addEventListener('click',(e)=>{
+        e.preventDefault();
         chat.innerHTML='';
     })
 
@@ -104,7 +105,7 @@ function init() {
 
 
     downloadButton.addEventListener('click',(e)=>{
-   
+        e.preventDefault();
         const a =document.createElement("a");
         document.body.appendChild(a);
         a.href= canvas.toDataURL();
@@ -114,18 +115,22 @@ function init() {
     });
 
     clearButton.addEventListener('click', (e) => {
+        e.preventDefault();
         socket.emit('clearAll');
     })
 
     pencilButton.addEventListener('click', (e) => {
+        e.preventDefault();
         mouse.mode = "pencil";
     })
 
     squareButton.addEventListener('click', (e) => {
+        e.preventDefault();
         mouse.mode = "square";
     })
 
     circleButton.addEventListener('click', (e) => {
+        e.preventDefault();
         mouse.mode = "circle";
     })
 
@@ -138,7 +143,7 @@ function init() {
 
     //Quan l'usuari clica 
     canvas.addEventListener('mousedown', (e) => {
-
+        e.preventDefault();
         mouse.pos.x = e.clientX / width;
         mouse.pos.y = e.clientY / height;
         mouse.click = true;
@@ -152,6 +157,7 @@ function init() {
 
     //Quan l'usuari deixa de clicar
     canvas.addEventListener('mouseup', (e) => {
+        e.preventDefault();
         let posFinalx = e.clientX / width;
         let posFinaly = e.clientY / height;
 
@@ -164,7 +170,8 @@ function init() {
 
     });
     //Quan l'usuari mou el mouse
-    canvas.addEventListener('mousemove', e => {
+    canvas.addEventListener('mousemove', (e) => {
+        e.preventDefault();
         mouse.pos.x = e.clientX / width;
         mouse.pos.y = e.clientY / height;
         mouse.move = true;

@@ -58,10 +58,10 @@ module.exports = io => {
             console.log(colors)
             io.sockets.emit('usernames', nicknames);
         });
+        
         socket.on('draw_line', data => {
             line_history.push(data.line);
             io.emit('draw_line', { line: data.line });
-            //console.log(data.line)
         });
 
         socket.on('draw_circle', data => {
@@ -83,7 +83,6 @@ module.exports = io => {
             square_history = [];
             io.emit('clearAll');
 
-            //console.log(data.line)
         });
         
 

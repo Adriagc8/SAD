@@ -12,10 +12,6 @@ const io = socketIO(server);
 app.set('port', process.env.PORT || 4000);
 require("./serverSocket")(io);
 
-//Routes
-// app.use('/', require('./routes'));
-
-
 // static files
 app.use(express.static(path.join(__dirname, 'public')));
 

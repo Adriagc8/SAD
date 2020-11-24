@@ -20,15 +20,9 @@ function init() {
     let squareButton = document.getElementById('square');
     let circleButton = document.getElementById('circle');
     let downloadButton = document.getElementById('download');
-    let imgConverted = document.getElementById('imgConverted');
+
     
     let context = canvas.getContext('2d');
-   
-        var background = new Image();
-        background.src="./backWB.png";
-    context.drawImage(background,0,0);   
-        
-    
     let width = window.innerWidth;
     let height = window.innerHeight;
 
@@ -37,25 +31,34 @@ function init() {
     let messageButton = document.getElementById('message-form');
     let messageBox = document.getElementById('message');
     let chat = document.getElementById('chat');
+    let clearChat=document.getElementById('clear-Chat');
     let nickButton = document.getElementById('nickForm');
-    let nickName = document.getElementById('nickname')
-    let nickError = document.getElementById('nickError')
-    let users = document.getElementById('usernames')
+    let nickName = document.getElementById('nickname');
+    let nickError = document.getElementById('nickError');
+    let users = document.getElementById('usernames');
+    let nickWrap=document.getElementById('nickWrap');
+    let contentWrap= document.getElementById('contentWrap');
+    let message= document.getElementById('message');
+    var img = document.getElementById("backGround");
 
 
     // Socket IO
     let socket = io();
 
     //CHAT
+    clearChat.addEventListener('click',(e)=>{
+        chat.innerHTML='';
+    })
+
     nickButton.addEventListener('submit', (e) => {
         e.preventDefault();
         socket.emit('new user', nickName.value, data => {
             if (data) {
-                $('#nickWrap').hide();
-                $('#contentWrap').show();
-                $('#message').focus();
+                nickWrap.style.display='none';
+                contentWrap.style.display='block';
+               message.focus();
             } else {
-                //   COMENTAR
+               
                 let html = `
                 <div class="alert alert-danger">
                   That username already Exists.
@@ -93,16 +96,17 @@ function init() {
         }
         users.innerHTML = html;
     });
+
+
+
     // Set the canvas width and height to the browser size
     canvas.width = width * 0.5779;// 11.05 / 14;
     canvas.height = height / 2;
     translateX = width / 4.75;
 
+
     downloadButton.addEventListener('click',(e)=>{
-    //     var background = new Image();
-    //     background.src="/backWB.png";
-    // context.drawImage(background,0,0, canvas.width, canvas.height);   
-        
+   
         const a =document.createElement("a");
         document.body.appendChild(a);
         a.href= canvas.toDataURL();
@@ -133,8 +137,9 @@ function init() {
 
 
     socket.on('clearAll', data => {
-        // chat.clear();
+       
         context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(img,0, 0);
     });
 
 

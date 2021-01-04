@@ -8,10 +8,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Server {
-    private static final int PORT=5000;
+    private static final int PORT = 5000;
     public static ConcurrentHashMap<String, Handler> clientsMap = new ConcurrentHashMap<String, Handler>();
+
     public static void main(String[] args) throws Exception {
-        System.out.println("The server is running on port"+ PORT);
+        System.out.println("The server is running on port" + PORT);
         var pool = Executors.newFixedThreadPool(500);
         try (MyServerSocket listener = new MyServerSocket(PORT)) {
             while (true) {
@@ -19,71 +20,83 @@ public class Server {
             }
         }
     }
-    
+
     public static class Handler implements Runnable {
         private final MySocket socket;
-        private String lastMsg=""; 
+        private String lastMsg = "";
         private String clientName;
         public BufferedReader in = null;
         public PrintWriter out = null;
 
-        public Handler(MySocket sc){
+        public Handler(MySocket sc) {
             this.socket = sc;
             this.in = new BufferedReader(new InputStreamReader(this.socket.MyGetInputStream()));
             this.out = new PrintWriter(socket.MyGetOutputStream(), true);
         }
+
         @Override
-        public void run(){
+        public void run() {
             try (this.socket) {
                 boolean username = false;
                 boolean logOut = false;
-                while(!username){
+                while (!username) {
                     this.out.print("Enter your username: \n");
                     this.out.flush();
-                    try{
+                    try {
                         this.clientName = this.in.readLine();
-                    }catch(IOException e){
+                    } catch (IOException e) {
                         System.out.println(e);
                     }
-                    if(!clientsMap.containsKey(this.clientName)){
+                    if (!clientsMap.containsKey(this.clientName)) {
                         Server.clientsMap.values().stream().map((ms) -> {
-                            ms.out.print(this.clientName+" has joined the chat\n" );
+                            ms.out.print(this.clientName + " has joined the chat\n");
                             return ms;
                         }).forEachOrdered((ms) -> {
                             ms.out.flush();
                         });
-                        System.out.println("New User: "+this.clientName +":)");
+                        System.out.println("New User: " + this.clientName + ":)");
                         clientsMap.put(this.clientName, this);
-                        username=true;
-                    }else{
-                        this.out.println( "Username already taken :(\n");
+                        username = true;
+                    } else {
+                        this.out.println("Username already taken :(\n");
                         this.out.flush();
                     }
                 }
-                while(!logOut){
+                while (!logOut) {
                     try {
                         if (this.in.ready()) {
-                            this.lastMsg = this.in.readLine(); 
-                            if(this.lastMsg.equals("exit")){
+                            this.lastMsg = this.in.readLine();
+                            if (this.lastMsg.equals("exit")) {
                                 clientsMap.remove(this.clientName);
-                                //Li diem a tots els clients que ell marxa:
+                                // Li diem a tots els clients que ell marxa:
                                 Server.clientsMap.values().stream().map((ms) -> {
-                                    ms.out.print(this.clientName+" has left\n" );
+                                    ms.out.print(this.clientName + " has left\n");
                                     return ms;
                                 }).forEachOrdered((ms) -> {
                                     ms.out.flush();
                                 });
-                                logOut=true;
+                                logOut = true;
                             }
-                
+
                         }
-                    }catch (IOException e) {
+                    } catch (IOException e) {
                         System.out.println(e);
                     }
                 }
+                if (!"".equals(this.lastMsg)) { // si l'ultim missatge no es buit
+                    Server.clientsMap.values().stream().map((ms) -> {
+                        if (!ms.clientName.equals(this.clientName)) { // mirem que no siguem nosaltres
+                            ms.out.print(this.clientName + ": " + this.lastMsg + "\n");
+                        }
+                        return ms;
 
-                
-            }catch (IOException ex) {
+                    }).forEachOrdered((ms) -> {
+                        ms.out.flush();
+                    });
+                }
+                this.lastMsg = "";
+
+            } catch (IOException ex) {
                 System.out.println(ex);
             }
             try {
@@ -93,8 +106,6 @@ public class Server {
             }
             this.out.close();
         }
-
-
 
     }
 }

@@ -38,10 +38,26 @@ public class Server {
                 boolean username = false;
                 boolean logOut = false;
                 while(!username){
-                    try {
-                        
-                    }catch (IOException e) {
+                    this.out.print("Enter your username: \n");
+                    this.out.flush();
+                    try{
+                        this.clientName = this.in.readLine();
+                    }catch(IOException e){
                         System.out.println(e);
+                    }
+                    if(!clientsMap.containsKey(this.clientName)){
+                        Server.clientsMap.values().stream().map((ms) -> {
+                            ms.out.print(this.clientName+" has joined the chat\n" );
+                            return ms;
+                        }).forEachOrdered((ms) -> {
+                            ms.out.flush();
+                        });
+                        System.out.println("New User: "+this.clientName +":)");
+                        clientsMap.put(this.clientName, this);
+                        username=true;
+                    }else{
+                        this.out.println( "Username already taken :(\n");
+                        this.out.flush();
                     }
                 }
                 while(!logOut){

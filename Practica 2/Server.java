@@ -62,7 +62,21 @@ public class Server {
                 }
                 while(!logOut){
                     try {
-                        
+                        if (this.in.ready()) {
+                            this.lastMsg = this.in.readLine(); 
+                            if(this.lastMsg.equals("exit")){
+                                clientsMap.remove(this.clientName);
+                                //Li diem a tots els clients que ell marxa:
+                                Server.clientsMap.values().stream().map((ms) -> {
+                                    ms.out.print(this.clientName+" has left\n" );
+                                    return ms;
+                                }).forEachOrdered((ms) -> {
+                                    ms.out.flush();
+                                });
+                                logOut=true;
+                            }
+                
+                        }
                     }catch (IOException e) {
                         System.out.println(e);
                     }

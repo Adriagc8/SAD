@@ -47,13 +47,14 @@ public class MySocket extends Socket{
        }
        return null;
    }
-   
-   public void Myclose(){
-       try {
-           sc.close(); //Closing this socket will also close the socket's InputStream and OutputStream.
-                      // If this socket has an associated channel then the channel is closed as well.
-       } catch (IOException ex) {
-        System.err.println(ex);
-       }
+   @Override
+   public void close(){
+    try {
+        sc.close(); //Closing this socket will also close the socket's InputStream and OutputStream.
+                   // If this socket has an associated channel then the channel is closed as well.
+    } catch (IOException ex) {
+     System.err.println(ex);
+    }
    }
+   
 }

@@ -10,7 +10,7 @@ public class MyServerSocket extends ServerSocket {
         this.serverSocket = new ServerSocket(port);
     }
 
-  
+    @Override
     public MySocket Myaccept(){
         try {
             this.socket = new MySocket(serverSocket.accept()); //Listens for a connection to be made to this socket and accepts it. 
@@ -22,7 +22,9 @@ public class MyServerSocket extends ServerSocket {
         return  null;
     }
 
-    public void Myclose(){
+
+    @Override
+    public void close(){
         try {
             this.serverSocket.close(); //Closes this socket. Any thread currently blocked in accept() will throw a SocketException.
                                         //If this socket has an associated channel then the channel is closed as well.
@@ -30,4 +32,5 @@ public class MyServerSocket extends ServerSocket {
             System.err.println(ex);
         }
     }
+  
 }

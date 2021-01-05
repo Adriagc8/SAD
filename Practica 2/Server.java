@@ -1,6 +1,7 @@
 import java.io.PrintWriter;
 import java.util.concurrent.Executors;
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.ConcurrentHashMap;
@@ -49,8 +50,9 @@ public class Server {
                         System.out.println(e);
                     }
                     if (!clientsMap.containsKey(this.clientName)) {
+
                         Server.clientsMap.values().stream().map((ms) -> {
-                            ms.out.print(this.clientName + " has joined the chat\n");
+                            ms.out.print(">>"+this.clientName + " has joined the chat<<\n");
                             return ms;
                         }).forEachOrdered((ms) -> {
                             ms.out.flush();
@@ -67,11 +69,12 @@ public class Server {
                     try {
                         if (this.in.ready()) {
                             this.lastMsg = this.in.readLine();
+                            System.out.println("receive message: '" + this.lastMsg + "'");
                             if (this.lastMsg.equals("exit")) {
                                 clientsMap.remove(this.clientName);
                                 // Li diem a tots els clients que ell marxa:
                                 Server.clientsMap.values().stream().map((ms) -> {
-                                    ms.out.print(this.clientName + " has left\n");
+                                    ms.out.print("\t\t"+this.clientName + " has left\n");
                                     return ms;
                                 }).forEachOrdered((ms) -> {
                                     ms.out.flush();
@@ -83,11 +86,12 @@ public class Server {
                     } catch (IOException e) {
                         System.out.println(e);
                     }
-                }
+                   
                 if (!"".equals(this.lastMsg)) { // si l'ultim missatge no es buit
+              
                     Server.clientsMap.values().stream().map((ms) -> {
                         if (!ms.clientName.equals(this.clientName)) { // mirem que no siguem nosaltres
-                            ms.out.print(this.clientName + ": " + this.lastMsg + "\n");
+                            ms.out.print("\t>"+this.clientName + ": " + this.lastMsg + "\n");
                         }
                         return ms;
 
@@ -96,6 +100,8 @@ public class Server {
                     });
                 }
                 this.lastMsg = "";
+                }
+                
 
             } 
             try {

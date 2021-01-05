@@ -41,5 +41,6 @@ public class Client {
         chatInput.start();
         chatOutput.start();
         System.out.println("CLIENT JOINED");
+        System.out.println("write exit to LogOut");
     }    
 }

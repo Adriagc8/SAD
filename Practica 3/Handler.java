@@ -42,14 +42,46 @@ class ServerHandler implements Runnable {
     }
 
     void read() throws IOException {
-        int nbytes;
+        int numBytes;
 
         try {
-            nbytes = channel.read(readBuff);
+            numBytes = channel.read(readBuff);
+            System.out.println("Number of bytes read into buffer = " + numBytes);
 
+            if (numBytes == -1) {
+                selkey.cancel();
+                channel.close();
+                System.out.println("NumBytes=-1");
+            }
+            else {
+                readBuff.flip(); // The limit is set to the current position and then the position is set to zero. 
+                byte[] bytes = new byte[readBuff.remaining()];
+                msg = nickName+": "+(new String(bytes, Charset.forName("ISO-8859-1")));
+                readBuff.get(bytes, 0, bytes.length);
+                selkey.interestOps(SelectionKey.OP_WRITE);
+                selkey.selector().wakeup();
+            }
         }
         catch (IOException ex) {
-            
+    
+            selkey.cancel();
+            channel.close();
+            ex.printStackTrace();
+            usersMap.remove(nickName);
+            String nickNames=usersMap.keySet().toString();
+            nickNames=nickNames.replace("[","");
+            nickNames=nickNames.replace("]","");
+            nickNames=nickNames.replace(", ","-");
+            String nickNamelist=nickNames;                  
+            System.out.println("Good bye "+nickName);
+            usersMap.forEach((k,v) -> {
+                try{
+                    v.channel.write(ByteBuffer.wrap((nickName+" logOut\n").getBytes()));
+                    v.channel.write(ByteBuffer.wrap(("updateUser-"+nickNamelist+"\n").getBytes()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
             return;
         }
     }

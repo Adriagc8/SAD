@@ -16,7 +16,8 @@ public class Server {
         var pool = Executors.newFixedThreadPool(500);
         try (MyServerSocket listener = new MyServerSocket(PORT)) {
             while (true) {
-                pool.execute(new Handler(listener.accept()));
+              //  pool.execute(new Handler(listener.accept()));
+              pool.execute(new Handler(listener.accept()));
             }
         }
     }
@@ -96,9 +97,7 @@ public class Server {
                 }
                 this.lastMsg = "";
 
-            } catch (IOException ex) {
-                System.out.println(ex);
-            }
+            } 
             try {
                 this.in.close();
             } catch (IOException ex) {

@@ -11,7 +11,7 @@ public class MyServerSocket extends ServerSocket {
     }
 
     @Override
-    public MySocket Myaccept(){
+    public MySocket accept(){
         try {
             this.socket = new MySocket(serverSocket.accept()); //Listens for a connection to be made to this socket and accepts it. 
                                                             //The method blocks until a connection is made.

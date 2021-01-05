@@ -74,7 +74,7 @@ public class Server {
                                 clientsMap.remove(this.clientName);
                                 // Li diem a tots els clients que ell marxa:
                                 Server.clientsMap.values().stream().map((ms) -> {
-                                    ms.out.print("\t\t"+this.clientName + " has left\n");
+                                    ms.out.print(">>"+this.clientName + " has left<<\n");
                                     return ms;
                                 }).forEachOrdered((ms) -> {
                                     ms.out.flush();

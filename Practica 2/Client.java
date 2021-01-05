@@ -19,7 +19,7 @@ public class Client {
             public void run(){      
                 String line=keyboard.nextLine();
                 while(line != null){
-                    out.print(line+"\n");
+                   out.print(line+"\n");
                     out.flush();
                     line=keyboard.nextLine();
                 }              
@@ -30,7 +30,7 @@ public class Client {
                 try {
                     String msg=in.readLine();
                     while(msg != null){
-                           System.out.println(msg);
+                        System.out.println(msg);
                            msg=in.readLine();
                     }
                 } catch (IOException ex) {

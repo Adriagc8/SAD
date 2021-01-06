@@ -87,6 +87,25 @@ class ServerHandler implements Runnable {
     }
 
     void write() throws IOException {
-       
+        try {
+            usersMap.forEach((k,v) -> {
+                if(k!=nickName){
+                    System.out.println(k);
+                    try{
+                        v.channel.write(ByteBuffer.wrap(msg.getBytes()));
+                    }catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                };
+            });
+            System.out.print("message: "+msg);    
+            readBuff.clear();
+            selkey.interestOps(SelectionKey.OP_READ);
+            selkey.selector().wakeup();
+        }
+        catch (IOException ex) {
+            channel.close();
+            ex.printStackTrace();
+        }  
     }
 }

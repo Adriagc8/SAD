@@ -71,13 +71,12 @@ class ServerHandler implements Runnable {
             String nickNames=usersMap.keySet().toString();
             nickNames=nickNames.replace("[","");
             nickNames=nickNames.replace("]","");
-            nickNames=nickNames.replace(", ","-");
-            String nickNamelist=nickNames;                  
+            nickNames=nickNames.replace(", ","-");                
             System.out.println("Good bye "+nickName);
             usersMap.forEach((k,v) -> {
                 try{
                     v.channel.write(ByteBuffer.wrap((nickName+" logOut\n").getBytes()));
-                    v.channel.write(ByteBuffer.wrap(("updateUser-"+nickNamelist+"\n").getBytes()));
+                    v.channel.write(ByteBuffer.wrap(("updateUser-"+nickNames+"\n").getBytes()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

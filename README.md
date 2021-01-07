@@ -29,3 +29,17 @@ Hem tingut que crear una nova variable i igualarl-la a nickNames, tant al NIOSer
 Handler.java:106: error: exception IOException is never thrown in body of corresponding try statement
 No es necessari el try catch en el write() de Handler.
 <img src="./Practica3/exemples d'execució/versio2.png"/>
+
+## ChatPissarra
+This application is based on NodeJs, using socket.io and canvas.
+You can try it here: http://chatpizarrasad.ddns.net
+Functionalities: 
+-Multiuser whiteboard:
+    random color for every user.
+    draw lines, circles and squares.
+    clear whiteboard.
+    download whiteboard (png).
+-Chat:
+    -send messages to all users.
+    -clear local chat for a better experience.
+This a project from Adrià Gonzalez & Robert Ariño for the subject SAD in UPC-BarcelonaTECH

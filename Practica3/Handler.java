@@ -1,4 +1,4 @@
-package Practica 3;
+package Practica3;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -71,12 +71,13 @@ class ServerHandler implements Runnable {
             String nickNames=usersMap.keySet().toString();
             nickNames=nickNames.replace("[","");
             nickNames=nickNames.replace("]","");
-            nickNames=nickNames.replace(", ","-");                
+            nickNames=nickNames.replace(", ","-"); 
+            String nickList=nickNames;               
             System.out.println("Good bye "+nickName);
             usersMap.forEach((k,v) -> {
                 try{
                     v.channel.write(ByteBuffer.wrap((nickName+" logOut\n").getBytes()));
-                    v.channel.write(ByteBuffer.wrap(("updateUser-"+nickNames+"\n").getBytes()));
+                    v.channel.write(ByteBuffer.wrap(("updateUser-"+nickList+"\n").getBytes()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -86,7 +87,7 @@ class ServerHandler implements Runnable {
     }
 
     void write() throws IOException {
-        try {
+        
             usersMap.forEach((k,v) -> {
                 if(k!=nickName){
                     System.out.println(k);
@@ -101,10 +102,5 @@ class ServerHandler implements Runnable {
             readBuff.clear();
             selkey.interestOps(SelectionKey.OP_READ);
             selkey.selector().wakeup();
-        }
-        catch (IOException ex) {
-            channel.close();
-            ex.printStackTrace();
-        }  
     }
 }

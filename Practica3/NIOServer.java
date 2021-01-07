@@ -1,4 +1,4 @@
-package Practica 3;
+package Practica3;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -79,10 +79,11 @@ class NIOServer implements Runnable {
                         nickNames=nickNames.replace("[","");
                         nickNames=nickNames.replace("]","");
                         nickNames=nickNames.replace(", ","-");
+                        String nickList=nickNames;
                         usersMap.forEach((k,v) -> {
                             try{
                                 v.channel.write(ByteBuffer.wrap(("New user: "+nickName+"\n").getBytes()));
-                                v.channel.write(ByteBuffer.wrap((nickNames+"\n").getBytes()));
+                                v.channel.write(ByteBuffer.wrap((nickList+"\n").getBytes()));
                             }catch (IOException ex) {
                                 ex.printStackTrace();
                             }

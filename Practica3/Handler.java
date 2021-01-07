@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.nio.channels.Selector;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 class ServerHandler implements Runnable {
     final SocketChannel channel;
@@ -56,8 +55,10 @@ class ServerHandler implements Runnable {
             else {
                 readBuff.flip(); // The limit is set to the current position and then the position is set to zero. 
                 byte[] bytes = new byte[readBuff.remaining()];
-                msg = nickName+": "+(new String(bytes, Charset.forName("ISO-8859-1")));
+                System.out.println("bytes: "+bytes);
                 readBuff.get(bytes, 0, bytes.length);
+                msg = nickName+": "+(new String(bytes, Charset.forName("ISO-8859-1")));
+                System.out.println("msg: "+msg);
                 selkey.interestOps(SelectionKey.OP_WRITE);
                 selkey.selector().wakeup();
             }

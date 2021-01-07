@@ -82,8 +82,8 @@ class NIOServer implements Runnable {
                         String nickList=nickNames;
                         usersMap.forEach((k,v) -> {
                             try{
-                                v.channel.write(ByteBuffer.wrap(("New user: "+nickName+"\n").getBytes()));
-                                v.channel.write(ByteBuffer.wrap((nickList+"\n").getBytes()));
+                                v.channel.write(ByteBuffer.wrap((">>A wild "+nickName+" joined the chat<<\n").getBytes()));
+                                v.channel.write(ByteBuffer.wrap(("updateUser-"+nickList+"\n").getBytes()));
                             }catch (IOException ex) {
                                 ex.printStackTrace();
                             }

@@ -55,15 +55,29 @@ public class ClientGUI extends JFrame {
                 System.out.println("message"+msg);
                 if(msg.contains(lastLine) && msg.contains("wild")){
                     userName = lastLine;
-                    textRX.append(msg + "\n");
+                    System.out.println("nickmsg");
+                    String [] temp1=msg.split("wild ");
+                    String [] temp2=temp1[1].split(" joined");
+                    System.out.println(temp2[0]+" : "+userName);
+                    if(!temp2[0].equals(userName)){
+                        textRX.append(msg + "\n");
+                    }else{
+                        textRX.append("Welcome >>"+ userName+"<< to the XAT SAD" + "\n");
+                    }
+                   
                 }else if(msg.contains("updateUser")){
                     String[] temp;
                     temp = msg.split("-");
                     usersConnected.setText("USERS:\n");
                     for(int i = 1; i<temp.length; i++){
-                        usersConnected.append("- " + temp[i] + "\n");
+                        if(!temp[i].equals(userName)){
+                            usersConnected.append("- " + temp[i] + "\n");
+                        }else{
+                            usersConnected.append("-You: " + temp[i] + "\n");
+                        }
                     }
                 }else{
+                    System.out.println("msg");
                     textRX.append(msg + "\n");
                 }
             }
@@ -79,7 +93,7 @@ public class ClientGUI extends JFrame {
 
         textTX = new javax.swing.JTextField();
         textRX = new javax.swing.JTextArea();
-        textRX.setText("Enter your username please: \n");
+        textRX.setText("Enter your username please: ");
         textRX.setLineWrap(true); //divideix les linies al final del cuadre de text
         textRX.setWrapStyleWord(true); 
         textRX.setEditable(false);
